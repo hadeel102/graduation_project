@@ -1,0 +1,32 @@
+﻿@model IEnumerable<poject.Models.product>
+
+
+    @foreach (var item in Model)
+    {
+
+
+        var isservice = item.IsService.Value;
+        string spath = string.Empty;
+        if (!isservice)
+        {
+            spath = "https://localhost:44321/" + "Uploads/Products/" + item.Image1;
+        }
+        else {
+            spath = "https://localhost:44321/" + "Uploads/Services/" + item.Image1;
+        }
+        var URL = "/ItemDetails?id=" + item.ID;
+
+        <div class="col-sm-6 col-md-4">
+            <div class="shop__thumb" style="border-color: black;">
+                <a href="@URL">
+                    <div class="shop-thumb__img">
+                        <img src="@spath" class="img-responsive" alt="..." style="height:150px;width:200px;object-fit:contain">
+                    </div>
+                    <h5 class="shop-thumb__title">
+                        @item.Ename
+                    </h5>
+                    
+                </a>
+            </div>
+        </div>
+    }

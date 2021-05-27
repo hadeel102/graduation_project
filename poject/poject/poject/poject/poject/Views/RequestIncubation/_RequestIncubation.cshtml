@@ -1,0 +1,49 @@
+﻿@model poject.Model.vmRequestedIncubation
+
+
+@using (Html.BeginForm("SaveRequestedIncubation", "RequestIncubation", FormMethod.Post, new
+{
+    enctype = "multipart/form-data"
+}))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.RequestedUser)
+    @Html.HiddenFor(model => model.Status)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.RequestedDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.RequestedDescription, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control",
+               @required = "required",
+               @multiple = "true",
+                     @cols = "40",
+       @rows = "5"
+           }
+       })
+            @Html.ValidationMessageFor(model => model.RequestedDescription, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+
+        @Html.LabelFor(model => model.AttchedFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" id="ImageFile" name="ImageFile" class="form-control" required />
+            @Html.HiddenFor(model => model.AttchedFile)
+            @Html.ValidationMessageFor(model => model.AttchedFile, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-default">save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+}

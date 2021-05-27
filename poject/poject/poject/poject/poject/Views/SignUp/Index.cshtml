@@ -1,0 +1,243 @@
+﻿@model  poject.Model.Users
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LOGIN PAGE</title>
+    <meta charset="utf-8">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: url(https://image.freepik.com/free-photo/keyboard-close-up_1161-210.jpg) no-repeat center;
+            background-size: 100% 100%;
+            color: rgb(0, 0, 0);
+            display: flex;
+            align-content: center;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+        input {
+            opacity: 0.3;
+        }
+
+        .userlogin {
+            background-color: #ffffff57;
+            height: 550px;
+            width: 400px;
+            margin-top: 10%;
+            border-radius: 15px;
+            text-align-last: center;
+        }
+
+        .title {
+            text-align: center;
+            font-family: Arial;
+            text-transform: uppercase;
+            font-size: 15px;
+            padding-top: 15px;
+            color: #e92525;
+        }
+
+        .userid {
+            padding-top: 20px;
+        }
+
+            .userid h4 {
+                font-family: Arial, Helvetica, sans-serif;
+                float: left;
+                margin-left:60px;
+            }
+
+            .userid input {
+                height: 30px;
+                width: 300px;
+                border: solid 1px #000;
+                border-radius: 10px;
+            }
+
+        .password {
+            margin-top: 20px;
+        }
+
+            .password h4 {
+                font-family: Arial, Helvetica, sans-serif;
+                float: left;
+                margin-left: 50px;
+            }
+
+            .password input {
+                height: 30px;
+                width: 300px;
+                border: solid 1px #000;
+                border-radius: 10px;
+            }
+
+        .buttonlogin {
+            margin-top: 20px;
+        }
+
+            .buttonlogin button {
+                border: none;
+                padding: 15px 20px;
+                border-radius: 25px;
+                background: rgb(235, 15, 15);
+                color: white;
+                text-shadow: 0 0 3px #f5f0f0ce;
+            }
+
+        a {
+            margin-top: 20px;
+            float: left;
+            margin-left: 60px;
+            color: #000;
+        }
+
+
+        hr {
+            margin-top: 45px;
+            margin-left: 13%;
+        }
+
+        h5 {
+            margin-top: 10px;
+            font-size: 15px;
+        }
+
+        .button {
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+            .button button {
+                border-radius: 15PX;
+                width: 120px;
+                height: 35px;
+            }
+
+            .button img {
+                float: left;
+            }
+
+            .button p {
+                margin-top: 8px;
+                text-align: center;
+                text-transform: uppercase;
+                font-family: arial;
+            }
+
+        h4 {
+            color: black;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div>
+
+
+
+        @using (Html.BeginForm("SignUp", "SignUp", FormMethod.Post))
+
+
+        {<div> @ViewBag.ErrorMessage</div>
+
+         <div class="userlogin">
+
+             <div class="title">
+
+                 <h1>Sign Up</h1>
+
+             </div>
+             <div class="userid">
+                 <h4> @Html.LabelFor(Model => Model.Name)</h4>
+                 <div>
+                     @Html.TextBoxFor(Model => Model.Name)
+                     @Html.ValidationMessageFor(Model => Model.Name)
+
+                 </div>
+             </div>
+
+
+             <div class="userid">
+                 <h4> @Html.LabelFor(Model => Model.Username) </h4>
+                 <div>
+                     @Html.TextBoxFor(Model => Model.Username)
+                     @Html.ValidationMessageFor(Model => Model.Username, "", new { @class = "error" })
+                 </div>
+             </div>
+
+             <div class="password">
+                 <h4>  @Html.LabelFor(Model => Model.Password) </h4>
+                 <div>
+                     @Html.TextBoxFor(Model => Model.Password, new { type = "password" })
+                     @Html.ValidationMessageFor(Model => Model.Password, "")
+                 </div>
+             </div>
+
+
+
+             <div class="userid">
+                 <h4> @Html.LabelFor(Model => Model.MobileNumber)</h4>
+                 <div>
+                     @Html.TextBoxFor(Model => Model.MobileNumber, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                     @Html.ValidationMessageFor(Model => Model.MobileNumber)
+                 </div>
+             </div>
+
+
+             <div class="userid">
+                 <h4> @Html.LabelFor(Model => Model.Email)</h4>
+                 <div>
+                     @Html.TextBoxFor(Model => Model.Email)
+                     @Html.ValidationMessageFor(Model => Model.Email)
+
+                 </div>
+             </div>
+
+
+             <div class="userid">
+                 <h4> @Html.LabelFor(Model => Model.Address)</h4>
+                 <div>
+                     @Html.TextBoxFor(Model => Model.Address)
+                     @Html.ValidationMessageFor(Model => Model.Address)
+
+                 </div>
+             </div>
+
+
+
+             <div class="buttonlogin">
+                 <button type="submit" name="name" value="sign in"> Sign in</button>
+             </div>
+
+         </div>
+
+
+         
+
+
+
+
+             }
+    
+
+
+   </div>
+    
+</body>
+</html>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+

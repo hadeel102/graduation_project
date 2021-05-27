@@ -1,0 +1,78 @@
+﻿@model List<poject.Models.productHistory>
+    <style>
+        .Pending {
+            
+            color: orange;
+            font-weight: bold;
+        }
+        .Approved {
+            color: green;
+            font-weight: bold
+
+        }
+        .Reject {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+<div class="row">
+    <div class="col-md-12">
+
+        @{ var grid = new WebGrid(source:Model, canPage: true, rowsPerPage: 10);
+            grid.Pager(WebGridPagerModes.NextPrevious);
+
+
+        }
+
+
+
+        @grid.GetHtml(
+        htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: grid.Columns(
+          
+            grid.Column(columnName: "Product Name",
+format: (item) =>
+{
+    
+    {
+        return Html.Raw("<span id='p_" + item.ID + "' href='#'>" + item.Ename + "</span>");
+
+    }
+
+
+}),
+grid.Column("Totalqty", "Totalqty"),
+grid.Column("Price", "Price"),
+grid.Column("TblCategory.Ename", "Category Name"),
+grid.Column(columnName: "status",
+format: (item) =>
+{
+    var sstatus = string.Format("{0}",(item.status != null)?(int?)item.status:0 );
+    string sResult = "";
+    switch (sstatus)
+    {
+        case "0":
+            sResult = "<span class='Pending'>pending</span>";
+            break;
+        case "1":
+            sResult = "<span class='Approved'>Approved</span>";
+            break;
+        case "2":
+            sResult = "<span class='Reject'>Reject</span>";
+            break;
+
+        default:
+            break;
+    }
+
+    return Html.Raw(sResult);
+}),
+grid.Column("AdminComment", " Reject Admin Comment")
+
+
+
+)
+
+       )
+    </div>
+</div>

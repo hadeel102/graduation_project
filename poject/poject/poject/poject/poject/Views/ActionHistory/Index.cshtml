@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var User = (poject.Models.TblUser)Session["UserInfo"];
+
+
+}
+
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        background-color: #fff;
+        width: 100%
+    }
+
+        table th {
+            background-color: #B8DBFD;
+            color: #333;
+            font-weight: bold;
+        }
+
+        table th, table td {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        table, table table td {
+            border: 0px solid #ccc;
+        }
+
+    .Pager span {
+        text-align: center;
+        color: #333;
+        display: inline-block;
+        width: 20px;
+        background-color: #B8DBFD;
+        margin-right: 3px;
+        line-height: 150%;
+        border: 1px solid #B8DBFD;
+    }
+
+    .Pager a {
+        text-align: center;
+        display: inline-block;
+        width: 20px;
+        background-color: #ccc;
+        color: #333;
+        border: 1px solid #ccc;
+        margin-right: 3px;
+        line-height: 150%;
+        text-decoration: none;
+    }
+</style>
+<br>
+<br>
+
+<div id="gridContent">
+    @{Html.RenderPartial("_GridContent", (List<poject.Models.productHistory>)ViewBag.list);}
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+
+   $(document).on('click', '*[id*="Lnk_"]', function (e) {
+  e.preventDefault();
+         var id = e.target.id.replace('Lnk_', '');
+         var things = JSON.stringify({ 'id': id });
+              $. ajax({
+                  type: "POST",
+                cache: false,
+
+                  contentType: 'application/json; charset=utf-8',
+                  url: '@Url.Action("GetById", "Service")',
+                data: things,
+                  success: function (data, textStatus, XMLHttpRequest) {
+                      debugger;
+
+                      $('#ID').val(data.data.ID);
+                      $('#ImageFile').removeAttr('required');
+                      $('#Ename').val(data.data.Ename);
+                      $('#CategoryID').val(data.data.CategoryID);
+                      $('#Price').val(data.data.Price);
+                      $('#Image1').val(data.data.Image1);
+                      $('#TotalQty').val(data.data.TotalQty);
+                      $('#Description').val(data.data.Description);
+                      $('#IsService').val(data.data.IsService?"true":"false");
+
+
+                },
+                error: function () {
+                   alert('hhhh')
+                }
+                });
+         $('#myModal').modal('show');
+     });
+
+    </script>
+}

@@ -1,0 +1,222 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var User = (poject.Models.TblUser)Session["UserInfo"];
+
+
+}
+
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        background-color: #fff;
+        width: 100%
+    }
+
+        table th {
+            background-color: darkgray;
+            color: black;
+            font-weight: bold;
+        }
+
+        table th, table td {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        table, table table td {
+            border: 0px solid #ccc;
+        }
+
+    .Pager span {
+        text-align: center;
+        color: #333;
+        display: inline-block;
+        width: 20px;
+        background-color: #B8DBFD;
+        margin-right: 3px;
+        line-height: 150%;
+        border: 1px solid #B8DBFD;
+    }
+
+    .Pager a {
+        text-align: center;
+        display: inline-block;
+        width: 20px;
+        background-color: #ccc;
+        color: #333;
+        border: 1px solid #ccc;
+        margin-right: 3px;
+        line-height: 150%;
+        text-decoration: none;
+    }
+</style>
+
+<br></br>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="email">English Name </label>
+            <input type="email" class="form-control" id="email">
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="email">Price:</label>
+            <input type="email" class="form-control" id="email">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-right">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal"style="background-color:red;">
+            Add Service
+        </button>
+        <button type="submit" class="btn btn-default">
+            Search
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+
+        @{ var grid = new WebGrid(source: ViewBag.list, canPage: true, rowsPerPage: 10);
+            grid.Pager(WebGridPagerModes.NextPrevious);
+
+
+        }
+
+
+
+        @grid.GetHtml(
+        htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: grid.Columns(
+                              grid.Column(columnName: "Service Name",
+format: (item) =>
+{
+    var sstatus = string.Format("{0}", (item.status != null) ? (int?)item.status : 0);
+    string sResult = "";
+    if (sstatus != "0")
+    {
+        return Html.Raw("<a id='Lnk_" + item.id + "' href='#'>" + item.Ename + "</a>");
+    }
+    else
+    {
+        return Html.Raw("<span id='p_" + item.ID + "' href='#'>" + item.Ename + "</span>");
+
+    }
+
+
+}),
+grid.Column("Totalqty", "Totalqty"),
+grid.Column("Price", "Price"),
+grid.Column("TblCategory.Ename", "Category Name"),
+grid.Column(columnName: "status",
+format: (item) =>
+{
+    var sstatus = string.Format("{0}", (item.status != null) ? (int?)item.status : 0);
+    string sResult = "";
+    switch (sstatus)
+    {
+        case "0":
+            sResult = "Pending";
+            break;
+        case "1":
+            sResult = "Approved";
+            break;
+        case "2":
+            sResult = "Reject";
+            break;
+
+        default:
+            break;
+    }
+
+    return Html.Raw(sResult);
+}),
+grid.Column("AdminComment", " Reject Admin Comment"),
+grid.Column("Image", format: @<text>
+        @Html.ActionLink("Download", "DownloadFile", "Product", new { AttchedFile = item.Image1 }, null)
+    </text>),
+grid.Column(columnName: "OldData",
+format: (item) =>
+{
+if (item.OldData != null)
+{
+ return Html.Raw("<a id='ActionHis_" + item.id + "' href='#'>Old Data</a>");
+}
+else
+             {
+ return Html.Raw("");
+}
+})
+
+))
+    </div>
+</div>
+
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Service</h4>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderPartial("_Service", new poject.Model.vmproduct() { IsService = true });}
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+
+     $('*[id*="Lnk_"]').on('click', function (e) {
+         e.preventDefault();
+         var id = e.target.id.replace('Lnk_', '');
+         var things = JSON.stringify({ 'id': id });
+              $. ajax({
+                  type: "POST",
+                cache: false,
+
+                  contentType: 'application/json; charset=utf-8',
+                  url: '@Url.Action("GetById", "Service")',
+                data: things,
+                  success: function (data, textStatus, XMLHttpRequest) {
+                      debugger;
+                      
+                      $('#ID').val(data.data.ID);
+                      $('#ImageFile').removeAttr('required');
+                      $('#Ename').val(data.data.Ename);
+                      $('#CategoryID').val(data.data.CategoryID);
+                      $('#Price').val(data.data.Price);
+                      $('#Image1').val(data.data.Image1);
+                      $('#TotalQty').val(data.data.TotalQty);
+                      $('#Description').val(data.data.Description);
+                      $('#IsService').val(data.data.IsService?"true":"false");
+                      
+
+                },
+                error: function () {
+                   alert('hhhh')
+                }
+                });
+         $('#myModal').modal('show');
+     });
+    </script>
+}

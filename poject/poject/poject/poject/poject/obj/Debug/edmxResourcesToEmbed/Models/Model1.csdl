@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ECSalesModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ECSalesEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="products" EntityType="ECSalesModel1.product" />
+    <EntitySet Name="sysdiagrams" EntityType="ECSalesModel1.sysdiagram" />
+    <EntitySet Name="TblAddedProducts" EntityType="ECSalesModel1.TblAddedProduct" />
+    <EntitySet Name="TblCategories" EntityType="ECSalesModel1.TblCategory" />
+    <EntitySet Name="TblRequestedIncubations" EntityType="ECSalesModel1.TblRequestedIncubation" />
+    <EntitySet Name="TblUserComments" EntityType="ECSalesModel1.TblUserComment" />
+    <EntitySet Name="TblUsers" EntityType="ECSalesModel1.TblUser" />
+    <AssociationSet Name="FK_TblProductions_TblCategories" Association="ECSalesModel1.FK_TblProductions_TblCategories">
+      <End Role="TblCategory" EntitySet="TblCategories" />
+      <End Role="product" EntitySet="products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblProductions_TblUsers" Association="ECSalesModel1.FK_TblProductions_TblUsers">
+      <End Role="TblUser" EntitySet="TblUsers" />
+      <End Role="product" EntitySet="products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblCategories_TblCategories" Association="ECSalesModel1.FK_TblCategories_TblCategories">
+      <End Role="TblCategory" EntitySet="TblCategories" />
+      <End Role="TblCategory1" EntitySet="TblCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblRequestedIncupation_TblUsers" Association="ECSalesModel1.FK_TblRequestedIncupation_TblUsers">
+      <End Role="TblUser" EntitySet="TblUsers" />
+      <End Role="TblRequestedIncubation" EntitySet="TblRequestedIncubations" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ename" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Aname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryID" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Image1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Image2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Image3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Image4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="TotalQty" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="IsService" Type="Boolean" />
+    <NavigationProperty Name="TblCategory" Relationship="ECSalesModel1.FK_TblProductions_TblCategories" FromRole="product" ToRole="TblCategory" />
+    <NavigationProperty Name="TblUser" Relationship="ECSalesModel1.FK_TblProductions_TblUsers" FromRole="product" ToRole="TblUser" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TblAddedProduct">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AddedDate" Type="DateTime" Precision="3" />
+    <Property Name="Qty" Type="Int32" />
+    <Property Name="ProductionID" Type="Int32" />
+    <Property Name="IsApproved" Type="Int32" />
+  </EntityType>
+  <EntityType Name="TblCategory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ename" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="AName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="Image" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsService" Type="Boolean" />
+    <NavigationProperty Name="products" Relationship="ECSalesModel1.FK_TblProductions_TblCategories" FromRole="TblCategory" ToRole="product" />
+    <NavigationProperty Name="TblCategories1" Relationship="ECSalesModel1.FK_TblCategories_TblCategories" FromRole="TblCategory" ToRole="TblCategory1" />
+    <NavigationProperty Name="TblCategory1" Relationship="ECSalesModel1.FK_TblCategories_TblCategories" FromRole="TblCategory1" ToRole="TblCategory" />
+  </EntityType>
+  <EntityType Name="TblRequestedIncubation">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RequestedUser" Type="Int32" />
+    <Property Name="RequestedDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="AttchedFile" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="AdminComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TblUser" Relationship="ECSalesModel1.FK_TblRequestedIncupation_TblUsers" FromRole="TblRequestedIncubation" ToRole="TblUser" />
+  </EntityType>
+  <EntityType Name="TblUserComment">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="CreationDate" Type="DateTime" Precision="3" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="ServiceID" Type="Int32" />
+    <Property Name="IncubID" Type="Int32" />
+    <Property Name="Comment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="TblUser">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MobileNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="CreationDate" Type="DateTime" Precision="3" />
+    <Property Name="ContactWay" Type="Int32" />
+    <NavigationProperty Name="products" Relationship="ECSalesModel1.FK_TblProductions_TblUsers" FromRole="TblUser" ToRole="product" />
+    <NavigationProperty Name="TblRequestedIncubations" Relationship="ECSalesModel1.FK_TblRequestedIncupation_TblUsers" FromRole="TblUser" ToRole="TblRequestedIncubation" />
+  </EntityType>
+  <Association Name="FK_TblProductions_TblCategories">
+    <End Type="ECSalesModel1.TblCategory" Role="TblCategory" Multiplicity="0..1" />
+    <End Type="ECSalesModel1.product" Role="product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblCategory">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblProductions_TblUsers">
+    <End Type="ECSalesModel1.TblUser" Role="TblUser" Multiplicity="0..1" />
+    <End Type="ECSalesModel1.product" Role="product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblCategories_TblCategories">
+    <End Type="ECSalesModel1.TblCategory" Role="TblCategory" Multiplicity="0..1" />
+    <End Type="ECSalesModel1.TblCategory" Role="TblCategory1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblCategory">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TblCategory1">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblRequestedIncupation_TblUsers">
+    <End Type="ECSalesModel1.TblUser" Role="TblUser" Multiplicity="0..1" />
+    <End Type="ECSalesModel1.TblRequestedIncubation" Role="TblRequestedIncubation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TblRequestedIncubation">
+        <PropertyRef Name="RequestedUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

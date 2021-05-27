@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e2ea4d8d022f46ae8bc2730732385ee9" Name="Diagram1" ZoomLevel="65">
+        <EntityTypeShape EntityType="ECSalesModel.sysdiagram" Width="1.5" PointX="17.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ECSalesModel.TblAddedProduct" Width="1.5" PointX="16.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="ECSalesModel.TblCategory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ECSalesModel.TblRequestedIncubation" Width="1.5" PointX="4.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ECSalesModel.TblUserComment" Width="1.5" PointX="16.625" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ECSalesModel.TblUser" Width="1.5" PointX="0.5" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="ECSalesModel.FK_TblRequestedIncupation_TblUsers" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ECSalesModel.product" Width="1.5" PointX="3" PointY="0.5" />
+        <AssociationConnector Association="ECSalesModel.FK_TblProductions_TblCategories" />
+        <AssociationConnector Association="ECSalesModel.FK_TblProductions_TblUsers" />
+        <EntityTypeShape EntityType="ECSalesModel.productHistory" Width="1.5" PointX="9.125" PointY="0.5" />
+        <AssociationConnector Association="ECSalesModel.FK_TblProductionshis_TblCategories" />
+        <AssociationConnector Association="ECSalesModel.FK_TblProductionshis_TblUsers" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

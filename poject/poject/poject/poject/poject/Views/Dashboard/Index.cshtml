@@ -1,0 +1,241 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="~/Scripts/StyleSheet1.css" rel="stylesheet" />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-md-3">
+            
+
+            <!-- Filter -->
+            <div id="divCategories">
+                @{Html.RenderPartial("vwCategories", null);}
+
+            </div>
+        </div>
+
+        <div class="col-sm-8 col-md-9">
+            <!-- Filters -->
+            <ul class="shop__sorting" id="ulShopingMain">
+                <li class="active"><a id="lnkAll" href="#">All</a></li>
+                <li><a href="#" id="lnkProduct">Product</a></li>
+                <li><a href="#" id="lnkservice">Service</a></li>
+               
+
+
+            </ul>
+
+            <div id="shopcontent" class="row">
+                @*  <div class="col-sm-6 col-md-4">
+            <div class="shop__thumb">
+                <a href="#">
+                    <div class="shop-thumb__img">
+                        <img src="https://via.placeholder.com/400x400/87CEFA/000000" class="img-responsive" alt="...">
+                    </div>
+                    <h5 class="shop-thumb__title">
+                        Product Title
+                    </h5>
+                    <div class="shop-thumb__price">
+                        <span class="shop-thumb-price_old">$80.99</span>
+                        <span class="shop-thumb-price_new">$59.99</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+            <div class="shop__thumb">
+                <a href="#">
+                    <div class="shop-thumb__img">
+                        <img src="https://via.placeholder.com/400x400/20B2AA/000000" class="img-responsive" alt="...">
+                    </div>
+                    <h5 class="shop-thumb__title">
+                        Product Title
+                    </h5>
+                    <div class="shop-thumb__price">
+                        $59.99
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+            <div class="shop__thumb">
+                <a href="#">
+                    <div class="shop-thumb__img">
+                        <img src="https://via.placeholder.com/400x400/FFB6C1/000000" class="img-responsive" alt="...">
+                    </div>
+                    <h5 class="shop-thumb__title">
+                        Product Title
+                    </h5>
+                    <div class="shop-thumb__price">
+                        $59.99
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+            <div class="shop__thumb">
+                <a href="#">
+                    <div class="shop-thumb__img">
+                        <img src="https://via.placeholder.com/400x400/87CEFA/000000" class="img-responsive" alt="...">
+                    </div>
+                    <h5 class="shop-thumb__title">
+                        Product Title
+                    </h5>
+                    <div class="shop-thumb__price">
+                        $59.99
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+            <div class="shop__thumb">
+                <a href="#">
+                    <div class="shop-thumb__img">
+                        <img src="https://via.placeholder.com/400x400/FFA07A/000000" class="img-responsive" alt="...">
+                    </div>
+                    <h5 class="shop-thumb__title">
+                        Product Title
+                    </h5>
+                    <div class="shop-thumb__price">
+                        $59.99
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+            <div class="shop__thumb">
+                <a href="#">
+                    <div class="shop-thumb__img">
+                        <img src="" class="img-responsive" alt="...">
+                    </div>
+                    <h5 class="shop-thumb__title">
+                        Product Title
+                    </h5>
+                    <div class="shop-thumb__price">
+                        $59.99
+                    </div>
+                </a>
+            </div>
+        </div>*@
+            </div> <!-- / .row -->
+                <!-- Pagination -->
+                <!-- / .row -->
+
+            </div> <!-- / .col-sm-8 -->
+    </div> <!-- / .row -->
+</div>
+@section Scripts {
+    <script>
+
+        function ChangeData(ID, IsService, obj) {
+            debugger
+            var SelectData = $('#hndselectCategory').val();
+            var data = [];
+            if (SelectData != '') {
+                 data = JSON.parse($('#hndselectCategory').val());
+            }
+
+            if (obj.prop('checked')) {
+                data.push({ id: ID });
+
+            }
+            else {
+                var found_names = $.grep(data, function (v) {
+                    return v.id !== ID;
+                });
+                data = found_names;
+
+            }
+
+            $('#hndselectCategory').val(JSON.stringify(data))
+            if (data.length <= 0) {
+                $('#lnkAll').click();
+            }
+            else {
+                var things = JSON.stringify({ 'data': data });
+              $. ajax({
+                  type: "POST",
+                cache: false,
+
+                  contentType: 'application/json; charset=utf-8',
+                  url: '@Url.Action("getProductsByCriteria", "Dashboard")',
+                data: things,
+                  success: function (data, textStatus, XMLHttpRequest) {
+                      debugger;
+                    $('#shopcontent').html(data);
+                },
+                error: function () {
+                   alert('hhhh')
+                }
+                });
+            }
+
+
+
+        }
+        function getallProducts() {
+            debugger;
+             $. ajax({
+                  type: "POST",
+                cache: false,
+
+                  contentType: 'application/json; charset=utf-8',
+                  url: '@Url.Action("getAllProducts", "Dashboard")',
+
+                  success: function (data, textStatus, XMLHttpRequest) {
+                      debugger;
+                    $('#shopcontent').html(data);
+                },
+                error: function () {
+                   alert('hhhh')
+                }
+                });
+        }
+        $(document).ready(function () {
+            $('#lnkAll').click();
+        })
+        $(function () {
+            $('#divCategories').load('@Url.Action("getCategories", "Dashboard", new { Classification ="All" })');
+        });
+        $('#lnkAll').on('click', function () {
+
+            $('#lnkAll').parent('li').removeClass('active')
+            $('#lnkProduct').parent('li').removeClass('active')
+            $('#lnkservice').parent('li').removeClass('active')
+
+            $('#lnkAll').parent('li').addClass('active')
+            $('#divCategories').load('@Url.Action("getCategories", "Dashboard", new { Classification ="All" })');
+            getallProducts();
+        })
+        $('#lnkProduct').on('click', function () {
+            $('#lnkAll').parent('li').removeClass('active')
+            $('#lnkProduct').parent('li').removeClass('active')
+            $('#lnkservice').parent('li').removeClass('active')
+
+            $('#lnkProduct').parent('li').addClass('active')
+            $('#divCategories').load('@Url.Action("getCategories","Dashboard",new { Classification = "Product" })');
+
+        })
+        $('#lnkservice').on('click', function () {
+            $('#lnkAll').parent('li').removeClass('active')
+            $('#lnkProduct').parent('li').removeClass('active')
+            $('#lnkservice').parent('li').removeClass('active')
+
+            $('#lnkservice').parent('li').addClass('active')
+                        $('#divCategories').load('@Url.Action("getCategories","Dashboard",new { Classification = "Service" })');
+
+        })
+
+
+
+    </script>
+}

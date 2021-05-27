@@ -1,0 +1,69 @@
+﻿@model List<poject.Models.product>
+<div class="row">
+    <div class="col-md-12">
+
+        @{ var grid = new WebGrid(source: Model, canPage: true, rowsPerPage: 10);
+            grid.Pager(WebGridPagerModes.NextPrevious);
+
+
+        }
+
+
+
+        @grid.GetHtml(
+        htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: grid.Columns(
+
+            grid.Column(columnName: "Product Name",
+format: (item) =>
+{
+    var sstatus = string.Format("{0}", (item.status != null) ? (int?)item.status : 0);
+    string sResult = "";
+    if (sstatus == "0")
+    {
+        return Html.Raw("<a id='Lnk_" + item.id + "' href='#'>" + item.Ename + "</a>");
+    }
+    else
+    {
+        return Html.Raw("<span id='p_" + item.ID + "' href='#'>" + item.Ename + "</span>");
+
+    }
+
+
+}),
+grid.Column("Totalqty", "Totalqty"),
+grid.Column("Price", "Price"),
+grid.Column("TblCategory.Ename", "Category Name"),
+grid.Column(columnName: "status",
+format: (item) =>
+{
+    var sstatus = string.Format("{0}", (item.status != null) ? (int?)item.status : 0);
+    string sResult = "";
+    switch (sstatus)
+    {
+        case "0":
+            sResult = "Pending";
+            break;
+        case "1":
+            sResult = "Approved";
+            break;
+        case "2":
+            sResult = "Reject";
+            break;
+
+        default:
+            break;
+    }
+
+    return Html.Raw(sResult);
+}),
+
+grid.Column("Image", format: @<text>
+        @Html.ActionLink("Download", "DownloadFile", "RequestedService", new { AttchedFile = item.Image1 }, null)
+    </text>)
+
+)
+
+)
+    </div>
+</div>

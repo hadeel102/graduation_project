@@ -1,0 +1,62 @@
+﻿@model List<poject.Models.TblRequestedIncubation>
+<div class="row">
+    <div class="col-md-12">
+
+        @{ var grid = new WebGrid(source:Model, canPage: true, rowsPerPage: 10);
+            grid.Pager(WebGridPagerModes.NextPrevious);
+
+
+        }
+
+
+
+        @grid.GetHtml(
+        htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: grid.Columns(
+grid.Column(columnName: "Description",
+format: (item) =>
+{
+    var status = string.Format("{0}", item.Status);
+    string sResult = "";
+    if (status == "0")
+    {
+        return Html.Raw("<a id='Lnk_" + item.ID + "' href='#'>" + item.RequestedDescription + "</a>");
+    }
+    else
+    {
+        return Html.Raw("<span id='p_" + item.ID + "' href='#'>" + item.RequestedDescription + "</span>");
+
+    }
+
+
+}),
+grid.Column("AdminComment", "Comment"),
+
+            grid.Column(columnName: "Status",
+                format: (item) =>
+                {
+                    var status =string.Format("{0}", item.Status);
+                    string sResult = "";
+                    switch (status)
+                    {
+                        case "0":
+                            sResult = "Pending";
+                            break;
+                        case "1":
+                            sResult = "Approved";
+                            break;
+                        case "2":
+                            sResult = "Reject";
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    return Html.Raw(sResult);
+                })
+            )
+
+)
+    </div>
+</div>

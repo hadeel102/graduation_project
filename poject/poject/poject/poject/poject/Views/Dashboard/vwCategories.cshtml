@@ -1,0 +1,23 @@
+﻿@model IEnumerable<poject.Model.vmCategories>
+@if (Model != null)
+{
+    <input id="hndselectCategory" type="hidden" />
+
+    foreach (var item in Model)
+    {
+        <h3 class="headline">
+            <span>@item.Ename</span>
+        </h3>
+        foreach (var item1 in @item.Category)
+        {
+            <div class="checkbox">
+                <input type="checkbox" id="@item1.Ename" name="Category" onchange="ChangeData(@item1.ID, '@item.IsService.ToString()' , $(this))">
+                <label for="@item1.Ename">@item1.Ename</label>
+            </div>
+
+        }
+
+    }
+}
+
+
